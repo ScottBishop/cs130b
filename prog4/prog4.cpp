@@ -51,9 +51,9 @@ void Choose (const int size, int &first, int &second, vector<Point*> allPoints)
 	
 
   // pick a random element from what's left (there is one fewer to choose from)...
-	second = rand () % (size - 1);
+	second = rand () % (size);
 	while(allPoints[second]->choseForLine != false){
-		second = rand () % (size - 1);
+		second = rand () % (size);
 	}
 	allPoints[second]->choseForLine = true;
 
@@ -120,38 +120,38 @@ int main(int argc, char* argv[]){
 
 	while (numPossible > 0){
 		int first,second;
-	//select 2 random points
+		//select 2 random points
 		Choose(allPoints.size(), first, second, allPoints);
 
-	//find slope of those two points
+		//find slope of those two points
 		double ptSlope = slope(allPoints[first], allPoints[second]);
-	//find corresponding yintercept
+		//find corresponding yintercept
 		double yInt = yIntercept(allPoints[first], ptSlope);
-		cout << "slope: " << ptSlope << endl;
-		cout << "yIntercept: " << yInt << endl;
-	//erase those two points so they are not used again
+		// cout << "slope: " << ptSlope << endl;
+		// cout << "yIntercept: " << yInt << endl;
+		//erase those two points so they are not used again
 		allPoints[first]->isChecked = true;
 		allPoints[second]->isChecked = true;
 
 		numElements -= 2;
-	//allPoints.erase(allPoints.begin() + first);
-	//allPoints.erase(allPoints.begin() + second-1);
+		//allPoints.erase(allPoints.begin() + first);
+		//allPoints.erase(allPoints.begin() + second-1);
 		int nextPoint = rand() % allPoints.size();
 
 		while (numElements > 0){
-		//pick another random point from those remaining
+			//pick another random point from those remaining
 			while(allPoints[nextPoint]->isChecked != false){
 				nextPoint = rand() % allPoints.size();
 			}
 
-		//calculate closest distance between that point and the line
+			//calculate closest distance between that point and the line
 			double sampleDistance = linePointDistance(allPoints[nextPoint], ptSlope, yInt);
 
-		//erase that point as well
+			//erase that point as well
 			allPoints[nextPoint]->isChecked = true;
-		//allPoints.erase(allPoints.begin() + nextPoint);
+			//allPoints.erase(allPoints.begin() + nextPoint);
 
-		//store the distance for median calculation
+			//store the distance for median calculation
 			median.push_back(sampleDistance);
 			numElements--;
 		}
@@ -163,7 +163,11 @@ int main(int argc, char* argv[]){
 			compMedian = actualMedian;
 			finalSlope = ptSlope;
 			finalYInt = yInt;
-			cout << "new compMedian: " << compMedian << endl;
+			//cout << "new compMedian: " << compMedian << endl;
+		}
+
+		for (unsigned int i = 0; i < allPoints.size(); i++){
+			allPoints[i]->isChecked = false;
 		}
 		numPossible--;
 	}
@@ -174,27 +178,6 @@ int main(int argc, char* argv[]){
 	// 	cout << '\n';
 	// }
 
-	// for (vector<double>::iterator it=median.begin(); it!=median.end(); ++it){
-	// 	*it -= actualMedian;
-	// }
-
-
-	// for (vector<double>::iterator it=median.begin(); it!=median.end(); ++it){
-	// 	cout << *it;
-	// 	cout << '\n';
-	// }
-
-	// double theMedian = findMedian(median.size(), median);
-	// cout << "actual median: " << theMedian << endl;
-
-
-	// cout << "distance: " << sampleDistance << endl;
-	// cout << "slope: " << ptSlope << endl;
-	// cout << "yIntercept: " << yInt << endl;
-	// cout << "first1: " << first << " second1: " << second << endl;
-
-	// cout << "x: " << allPoints[first]->xCord << " y: " << allPoints[first]->yCord << endl;
-	// cout << "x: " << allPoints[second]->xCord << " y: " << allPoints[second]->yCord << endl;
 	double round1 = round(finalSlope);
 	double round2 = round(finalYInt);
 	cout << setprecision(5) << fixed << round1 << " ";
