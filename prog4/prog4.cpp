@@ -75,8 +75,15 @@ double findMedian(int size, vector<double> median){
 	int mid = 0;
 
 	if(size % 2 == 0){
+		cout << "made it" << endl;
 		mid = (size/2)-1;
-		arrMedian = ((median[mid]+median[mid + 1])/2.0);
+		cout << "mid: " << mid << endl;
+		cout << "median[mid]: " << median[mid] << endl;
+		cout << "median[mid + 1]: " << median[mid+1] << endl;
+		double hold = (median[mid]) + (median[mid + 1]) ;
+		cout << "hold: " << hold << endl;
+		arrMedian = hold/2.0;
+		cout << "arrMedian: " << arrMedian << endl;
 	}
 	else{
 		mid = (median.size()/2);
@@ -88,7 +95,7 @@ double findMedian(int size, vector<double> median){
 int main(int argc, char* argv[]){
 	vector<Point*> allPoints;
 	vector<double> median;
-	double compMedian;
+	//double compMedian;
 	allPoints = ReadFile(argv[1]);
 	//cout << "x: " << allPoints[0]->xCord << " y: " << allPoints[0]->yCord << endl;
 
@@ -122,11 +129,26 @@ int main(int argc, char* argv[]){
 	
 	sort(median.begin(), median.end());
 	double actualMedian = findMedian(median.size(), median);
+	cout << "actual median: " << actualMedian << endl;
 
 	for (vector<double>::iterator it=median.begin(); it!=median.end(); ++it){
-		cout << ' ' << *it;
+		cout << *it;
 		cout << '\n';
 	}
+
+	for (vector<double>::iterator it=median.begin(); it!=median.end(); ++it){
+		*it -= actualMedian;
+	}
+
+	cout << endl;
+
+	for (vector<double>::iterator it=median.begin(); it!=median.end(); ++it){
+		cout << *it;
+		cout << '\n';
+	}
+
+	double theMedian = findMedian(median.size(), median);
+	cout << "actual median: " << theMedian << endl;
 
 
 	// cout << "distance: " << sampleDistance << endl;
