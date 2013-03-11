@@ -20,13 +20,6 @@ public:
 	bool choseForLine;
 };
 
-class Line{
-public:
-	double slope;
-	double yInt;
-	double median;
-};
-
 vector<Point*> ReadFile(char* filename){
 	ifstream myfile(filename);
 	string line;
@@ -92,19 +85,11 @@ double findMedian(int size, vector<double> median){
 	int mid = 0;
 
 	if(size % 2 == 0){
-		cout << "made it" << endl;
 		mid = (size/2)-1;
 		long one = median[mid];
 		long two = median[mid+1];
 		long hold1 = one + two;
-		// cout << "hold1: " << hold1 << endl;
-		// cout << "mid: " << mid << endl;
-		// cout << "median[mid]: " << median[mid] << endl;
-		// cout << "median[mid + 1]: " << median[mid+1] << endl;
-		// double hold = (median[mid]) + (median[mid + 1]) ;
-		// cout << "hold: " << hold << endl;
 		arrMedian = hold1/2.0;
-		cout << "arrMedian: " << arrMedian << endl;
 	}
 	else{
 		mid = (median.size()/2);
